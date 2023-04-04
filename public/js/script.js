@@ -80,6 +80,26 @@ function proccesslogin(e) {
             console.log(errors, "error login");
         });
 }
+//detail category
+function detailCategory(id) {
+    const token = localStorage.getItem("access_token");
+    $.ajax({
+        method: "GET",
+        url: `${baseUrl}/article-category/detail/${id}`,
+    })
+    .done((result)=>{
+        let data = result.messages;
+        console.log(data)       
+        $("#detail-category").append(                
+            `<p>Category Name : ${data.categoryname}</p>`
+        )
+      
+    })
+    .fail((err) => {
+        const errors = err.responseJSON;
+        console.log(errors, "error category detail");
+    });
+}
 //create category
 function createCategory(e) {
     e.preventDefault()

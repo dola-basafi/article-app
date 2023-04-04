@@ -18,13 +18,14 @@ Route::get('/', function () {
 });
 Route::prefix('article')->group(function(){
     Route::get('/show',function(){ return view('article/show');})->name('articleshow');
-    Route::get('/edit/{id}',function($id){ return view('article/show',["id",$id]);})->name('articleedit');
+    Route::get('/edit/{id}',function($id){ return view('article/show',["id"=>$id]);})->name('articleedit');
     Route::get('/create',function(){ return view('article/show');})->name('articlecreate');
 
 });
 
 Route::prefix('category')->group(function(){
+    Route::get('/detail/{id}',function($id){ return view('category/detail',["id"=>$id]);})->name('categorydetail');
     Route::get('/show',function(){ return view('category/show');})->name('categoryshow');
-    Route::get('/edit/{id}',function($id){ return view('category/edit',["id",$id]);})->name('categoryedit');
+    Route::get('/edit/{id}',function($id){ return view('category/edit',["id"=>$id]);})->name('categoryedit');
     Route::get('/create',function(){ return view('category/create');})->name('categorycreate');
 });
