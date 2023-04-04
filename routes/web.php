@@ -25,6 +25,6 @@ Route::prefix('article')->group(function(){
 
 Route::prefix('category')->group(function(){
     Route::get('/show',function(){ return view('category/show');})->name('categoryshow');
-    Route::get('/edit/{id}',function($id){ return view('category/show',["id",$id]);})->name('categoryedit');
-    Route::get('/create',function(){ return view('category/show');})->name('categorycreate');
+    Route::get('/edit/{id}',function($id){ return view('category/edit',["id",$id]);})->name('categoryedit');
+    Route::get('/create',function(){ return view('category/create');})->name('categorycreate');
 });

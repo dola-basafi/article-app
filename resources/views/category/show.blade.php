@@ -12,6 +12,9 @@
                  
   </tbody>
 </table>
+<a href="{{route('categorycreate')}}">
+  <button class="btn btn-primary" onclick="">Add Category</button>
+</a>
 @endsection
 
 

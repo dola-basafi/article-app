@@ -21,16 +21,13 @@ function proccesslogout() {
     $.ajax({
         method: "GET",
         headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         },
         url: `${baseUrl}/user/logout`,
-        // headers: { access_token: localStorage.token },
     }).done((result) => {
-        console.log(result, "INI hasil response dengan ajax logout");
+        console.log(result, "succes logout");
         localStorage.clear();
         location.reload();
-        // afterLogin()
     });
 }
 //register
@@ -46,20 +43,20 @@ function proccessregister(e) {
         data: { email: email, password: password, name: name },
     })
         .done((result) => {
-            console.log(result, "INI hasil response dengan ajax regis");
-            // afterLogin()
+            console.log(result, "success regis");
+            location.reload();
         })
         .fail((err) => {
             const errors = err.responseJSON.error;
-            $("#alert-login").show();
-            $("#alert-login").text(JSON.stringify(errors));
-            console.log(err, "INI ERROR DI regis");
+            $("#alert-regis").show();
+            $("#alert-regis").text(JSON.stringify(errors));
+            console.log(err, "this error from regis");
         });
 }
 
 // login
 function proccesslogin(e) {
-    e.preventDefault();
+    e.preventDefault();    
     const email = $("#loginemail").val();
     const password = $("#loginpassword").val();
     $.ajax({
@@ -70,26 +67,50 @@ function proccesslogin(e) {
         .done((result) => {
             console.log(
                 result.access_token,
-                "INI hasil response dengan ajax login"
+                "success login"
             );
             localStorage.setItem("access_token", result.access_token);
+            $("#form-login").empty()
             location.reload();
         })
         .fail((err) => {
-            console.log(email);
-
             const errors = err.responseJSON;
             $("#alert-login").show();
             $("#alert-login").text(JSON.stringify(errors));
-            console.log(errors, "INI ERROR DI LOGIN");
+            console.log(errors, "error login");
         });
 }
+//create category
+function createCategory(e) {
+    e.preventDefault()
+    const token = localStorage.getItem("access_token");
+    const categoryname = $("#categoryname").val()
+    $.ajax({
+        method: "POST",      
+        url: `${baseUrl}/article-category/create`,
+        data: { categoryname: categoryname },
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }).done((result)=>{
+        console.log(result)
+        // window.location = "/category/show"
+    })
+    .fail((err)=>{
+        const errors = err.responseJSON.messages
+        $("#alert-createcategory").show()
+        $("#alert-createcategory").text(JSON.stringify(errors))
+        console.log(errors)
+    })
+}
 
+
+
+//show category
 function showCategory() {
     $.ajax({
         method: "GET",
         url: `${baseUrl}/article-category/list`,
-        // headers: { access_token: localStorage.token },
     }).done((categories) => {
         let data = categories.messages;
         $.each(data, (index, category) => {
@@ -108,7 +129,6 @@ function showCategory() {
             );
         });
         isLogin();
-        // category.messages.forEach();
     });
 }
 function isLogin() {
@@ -117,4 +137,8 @@ function isLogin() {
     } else {
         $(".auth").hide();
     }
+}
+function clearAlert(){
+    $(".err").hide()
+    $(".err").empty()
 }
