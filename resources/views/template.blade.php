@@ -64,7 +64,8 @@
                   </li>
                   <li class="nav-item " id="log-out">
                     <a class="nav-link" href="#">
-                      <button                      
+                      <button         
+                      onclick="proccesslogout()"             
                         type="button"
                         class="btn btn-danger"
                       >

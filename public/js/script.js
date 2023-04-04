@@ -11,7 +11,7 @@ $(document).ready(function () {
     }
 });
 //local
-const baseUrl = "http://localhost:8000/api";
+const baseUrl = "http://127.0.0.1:8000/api";
 //deploy
 // const baseUrl = "https://article-production-bdcd.up.railway.app/api";
 
@@ -29,6 +29,7 @@ function proccesslogout() {
     }).done((result) => {
         console.log(result, "INI hasil response dengan ajax logout");
         localStorage.clear();
+        location.reload();
         // afterLogin()
     });
 }
@@ -52,7 +53,7 @@ function proccessregister(e) {
             const errors = err.responseJSON.error;
             $("#alert-login").show();
             $("#alert-login").text(JSON.stringify(errors));
-            console.log(errors, "INI ERROR DI regis");
+            console.log(err, "INI ERROR DI regis");
         });
 }
 
@@ -63,21 +64,21 @@ function proccesslogin(e) {
     const password = $("#loginpassword").val();
     $.ajax({
         method: "POST",
-        url: `${baseUrl}/user/login`,
+        url: `${baseUrl}/user/login`,        
         data: { email: email, password: password },
     })
         .done((result) => {
-            console.log("tet");
-            // console.log(
-            //     result.access_token,
-            //     "INI hasil response dengan ajax login"
-            // );
-            // localStorage.setItem("access_token", result.access_token);
+            console.log(
+                result.access_token,
+                "INI hasil response dengan ajax login"
+            );
+            localStorage.setItem("access_token", result.access_token);
+            location.reload();
         })
         .fail((err) => {
             console.log(email);
 
-            const errors = err.responseJSON.error;
+            const errors = err.responseJSON;
             $("#alert-login").show();
             $("#alert-login").text(JSON.stringify(errors));
             console.log(errors, "INI ERROR DI LOGIN");
