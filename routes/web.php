@@ -14,5 +14,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome')->name('home');
+});
+Route::prefix('article')->group(function(){
+    Route::get('/show',function(){ return view('article/show');})->name('articleshow');
+    Route::get('/edit/{id}',function($id){ return view('article/show',["id",$id]);})->name('articleedit');
+    Route::get('/create',function(){ return view('article/show');})->name('articlecreate');
+
+});
+
+Route::prefix('category')->group(function(){
+    Route::get('/show',function(){ return view('category/show');})->name('categoryshow');
+    Route::get('/edit/{id}',function($id){ return view('category/show',["id",$id]);})->name('categoryedit');
+    Route::get('/create',function(){ return view('category/show');})->name('categorycreate');
 });
