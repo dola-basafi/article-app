@@ -1,4 +1,4 @@
-## if error when submit
+## if error when submit on local
 in .env variable use
 
 APP_URL=http://127.0.0.1
