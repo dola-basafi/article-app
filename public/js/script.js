@@ -77,6 +77,26 @@ function proccesslogin(e) {
             console.log(errors, "error login");
         });
 }
+//delete category
+function delCategory(id) {
+    const token = localStorage.getItem("access_token");
+    $.ajax({
+        method: "DELETE",
+        url: `${baseUrl}/article-category/delete/${id}`,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+        .done((result) => {
+            let data = result.messages;
+            console.log(data);
+            showCategory();
+        })
+        .fail((err) => {
+            const errors = err.responseJSON;
+            console.log(errors, "error category delete");
+        });
+}
 //detail category
 function detailCategory(id) {
     const token = localStorage.getItem("access_token");
@@ -103,6 +123,7 @@ function detailCategory(id) {
 }
 //create category
 function createCategory(e) {
+    
     e.preventDefault();
     const token = localStorage.getItem("access_token");
     const categoryname = $("#categoryname").val();
@@ -116,7 +137,7 @@ function createCategory(e) {
     })
         .done((result) => {
             console.log(result);
-            // window.location = "/category/show"
+            window.location = "/category/show";
         })
         .fail((err) => {
             const errors = err.responseJSON.messages;
@@ -125,24 +146,27 @@ function createCategory(e) {
             console.log(errors);
         });
 }
-//edit show
+//edit show category
 function editShow(id) {
+    $("#alert-editcategory").hide();
     const token = localStorage.getItem("access_token");
     $.ajax({
         method: "GET",
         url: `${baseUrl}/article-category/detail/${id}`,
     })
-    .done((result) => {
-        let data = result.messages;
-        $("#categoryname").val(data.categoryname)
+        .done((result) => {
+            let data = result.messages;
+            $("#categoryname").val(data.categoryname);
         })
         .fail((err) => {
             const errors = err.responseJSON;
             console.log(errors, "error category detail");
+            $("#alert-editcategory").show();
+            $("#alert-editcategory").text(JSON.stringify(errors));
         });
 }
 //edit category
-function editCategory(e,id) {
+function editCategory(e, id) {
     e.preventDefault();
     const token = localStorage.getItem("access_token");
     const categoryname = $("#categoryname").val();
@@ -156,7 +180,7 @@ function editCategory(e,id) {
     })
         .done((result) => {
             console.log(result);
-            window.location = "/category/show"
+            window.location = "/category/show";
         })
         .fail((err) => {
             const errors = err.responseJSON.messages;
@@ -166,6 +190,7 @@ function editCategory(e,id) {
 
 //show category
 function showCategory() {
+    $("#category-data").empty();
     $.ajax({
         method: "GET",
         url: `${baseUrl}/article-category/list`,
@@ -183,10 +208,10 @@ function showCategory() {
                     </a>
                     <a href="/category/edit/${category.id}">
                     <button class="btn btn-warning auth">edit</button>
-                    </a>
-                    <a href="/category/delete/${category.id}">
-                    <button class="btn btn-danger auth">delete</button>                    
-                    </a>
+                    </a>                    
+                    <button class="btn btn-danger auth" onclick="delCategory(${
+                        category.id
+                    })">delete</button>                    
                     </td>
         </tr>
         `
