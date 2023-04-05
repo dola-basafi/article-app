@@ -1,6 +1,6 @@
 @extends('template')
 @section('content')
-<form onsubmit="editCategory(event)">
+<form onsubmit="editCategory(event,{{$id}})">
   <div class="alert alert-danger err" role="alert" id="alert-editcategory">
 
   </div>
@@ -19,7 +19,8 @@
 @endsection
 
 @push('scripts')
-    <script >      
+    <script >  
+    editShow({{$id}})    
       isLogin()
     </script>
 @endpush
