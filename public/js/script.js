@@ -89,11 +89,9 @@ function detailCategory(id) {
     })
     .done((result)=>{
         let data = result.messages;
-        console.log(data)       
         $("#detail-category").append(                
             `<p>Category Name : ${data.categoryname}</p>`
-        )
-      
+        )      
     })
     .fail((err) => {
         const errors = err.responseJSON;
@@ -124,6 +122,27 @@ function createCategory(e) {
     })
 }
 
+//edit category
+function editCategory(id) {
+    e.preventDefault()
+    const token = localStorage.getItem("access_token");
+    const categoryname = $("#categoryname").val()
+    $.ajax({
+        method: "POST",      
+        url: `${baseUrl}/article-category/detail/${id}`,
+        data: { categoryname: categoryname },
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }).done((result)=>{
+        console.log(result)
+        // window.location = "/category/show"
+    })
+    .fail((err)=>{
+        const errors = err.responseJSON.messages
+        console.log(errors)
+    })
+}
 
 
 //show category
@@ -141,7 +160,7 @@ function showCategory() {
                 <td>${category.categoryname}</td>
                 <td>
                       <button class="btn btn-primary">detail</button>
-                      <button class="btn btn-warning auth">update</button>
+                      <button class="btn btn-warning auth">edit</button>
                       <button class="btn btn-danger auth">delete</button>
                     </td>
         </tr>
